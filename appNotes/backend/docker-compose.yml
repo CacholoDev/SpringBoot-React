@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: appnotes-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: appnotes_db
+      MYSQL_USER: appnotes_user
+      MYSQL_PASSWORD: appnotes_pass
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - appnotes-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+  backend:
+    build: .
+    container_name: appnotes-backend
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/appnotes_db
+      SPRING_DATASOURCE_USERNAME: appnotes_user
+      SPRING_DATASOURCE_PASSWORD: appnotes_pass
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    ports:
+      - "8080:8080"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - appnotes-network
+
+volumes:
+  mysql_data:
+
+networks:
+  appnotes-network:
+    driver: bridge
