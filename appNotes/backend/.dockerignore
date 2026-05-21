@@ -1,9 +1,0 @@
-target/
-.git/
-.gitignore
-.maven/
-*.md
-.vscode/
-*.class
-*.jar
-*.war

@@ -1,5 +1,9 @@
 package com.appnotes.backend.repository;
 
-public class NotasRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.appnotes.backend.model.NotasEntity;
+
+public interface NotasRepository extends JpaRepository<NotasEntity, Long> {
     
 }
