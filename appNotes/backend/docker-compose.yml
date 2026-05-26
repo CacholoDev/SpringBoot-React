@@ -24,10 +24,11 @@ services:
     build: .
     container_name: appnotes-backend
     environment:
+      SPRING_PROFILES_ACTIVE: prod
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/appnotes_db
       SPRING_DATASOURCE_USERNAME: appnotes_user
       SPRING_DATASOURCE_PASSWORD: appnotes_pass
-      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      APP_CORS_ALLOWED_ORIGIN: http://localhost:5173
     ports:
       - "8080:8080"
     depends_on:
